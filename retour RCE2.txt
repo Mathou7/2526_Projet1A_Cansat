@@ -1,0 +1,35 @@
+problème baromètre (passe 2 fois à l'altitude demandé ---- besoin d'un timer intégré 
+prise jack débranché ------ Cansat active
+prise jack branchée ---- Cansat passive 
+pour le capuchon --- mettre une ficelle qui tient au Cansat (attention à ce que ça bloque les cameras) ou tout petit parachute 
+ne pas se baser sur la hauteur du drone pour la mesure de pression 
+mettre des boutons 
+capa de découplage (si mal dimensionné et mal placée) attention aux chutes de tensions --- à mettre au plus proche des chip 
+commander les composants assez vite/prototyper
+bilan de puissance et d'énergie (besoin en courant) pour savoir le temps que la batterie peut tenir 
+commander la batterie 
+dans 1 à 2 semaines, avoir fait la phase de conception 
+Poster le 1er mai !!!!!
+RCE3 Cansat fonctionnel 
+Pour camera : distance focale, temps d'exposition plus c'est court moins c'est flou 
+faire attention à comment l'interfacer avant le système 
+faut vidéo numérique (fish eyes, nipy, global shutter noir et blanc ? )
+faut photo pas trop flou pour traitement d'image 
+chronologie de la mission (au bot de 20 sec je fais ci, avant: pendant 30 sec je fais ci…)
+estimer la distance que peut voir la caméra (Pythagore et donc tracer un cercle)
+stocker image (carte SD) faut prévoir sur le pcb un emplacement (interface Meca pas prévue pour tenir la carte (attention au micro décollement en cas de choc) faut faire plein de mini fichiers afin d'éviter la corruption de tous le fichiers  ---- existe des appli pour reconstituer la vidéo en mp4 
+essayer de faire des test (sur le stockage, si on arrive à encoder les images) 5 FPS ça suffit (viser classe 1à pour les cartes) 
+
+A FAIRE : PROTO SUR TABLE (arriver à dialoguer avec la caméra, savoir comment programmer la carte, système de trappe, savoir si on arrive à communiquer avec la carte SD ) creuser sur la partie technique. ne pas hésiter à imprimer plein de fois et faire plein de tests 
+Pour le servo : pas de reprise de force, ne pas mettre le servo en charge, système de goupille 
+batterie lithium : faut système de protection (BMS) facilement démontable, pour les charger, prévoir un chargement dans un sac ignifugé ----- avoir 2 batteries 
+prévoir une marge 
+attention connectique (positive lock, faut pas que les connecteurs partent tout seuls, connecteur doivent pas être inter compatible (pour éviter de faire des bêtises et se tromper de branchement)
+prendre pièces de rechange 
+faut regarder les drivers (compatibilité et faciliter d'intégration avec les solutions qu'on veut)
+traitement du signal pour démoduler le système
+couleur : fluo 
+
+
+A demander à Alexeï/ Thibault Abalain : stage et C'space: ont peut louper quelques choses 
+
