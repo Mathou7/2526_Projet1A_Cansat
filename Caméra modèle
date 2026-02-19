@@ -1,0 +1,41 @@
+1. OV2640 (2 Mégapixels) – Le standard polyvalent
+
+C'est le capteur le plus utilisé pour l'embarqué. Il est géré nativement par la plupart des STM32 (série F4, F7, H7).
+
+    Angle de vue : Jusqu'à 160° (selon la version de la lentille).
+
+    Interface : Parallèle (DCMI).
+
+    Prix : Environ 12 € à 18 €.
+
+    Points forts : Supporte la compression JPEG en interne, ce qui est crucial pour le STM32 car cela économise énormément de RAM.
+
+    Où chercher : "OV2640 160 degree camera board" sur Waveshare ou AliExpress.
+
+2. OV5640 (5 Mégapixels) – Pour plus de détails
+
+Plus performant que l'OV2640, il offre une meilleure résolution et un autofocus (bien que sur les versions fisheye, la mise au point soit souvent fixe).
+
+    Angle de vue : 120° à 160°.
+
+    Interface : Parallèle (DCMI).
+
+    Prix : Entre 15 € et 25 €.
+
+    Points forts : Excellente qualité d'image pour le prix, très stable.
+
+    Où chercher : "Waveshare OV5640 Camera Board (B)" (la version B est souvent grand angle).
+
+3. OV7670 (VGA 0,3 MP) – L'option "Budget Ultime"
+
+Si la résolution n'est pas ta priorité et que tu veux juste faire de la détection de mouvement ou de formes simples.
+
+    Angle de vue : Environ 120° sur les versions grand angle.
+
+    Interface : Parallèle.
+
+    Prix : Moins de 5 € à 8 €.
+
+    Points forts : Très facile à alimenter, demande peu de bande passante.
+
+    Attention : Pas de JPEG interne, le STM32 doit traiter le flux RAW/RGB, ce qui peut saturer la RAM rapidement.
