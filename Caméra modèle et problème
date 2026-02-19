@@ -39,3 +39,5 @@ Si la résolution n'est pas ta priorité et que tu veux juste faire de la détec
     Points forts : Très facile à alimenter, demande peu de bande passante.
 
     Attention : Pas de JPEG interne, le STM32 doit traiter le flux RAW/RGB, ce qui peut saturer la RAM rapidement.
+
+Nécessaire : Port DCIM ou un ARducam (problème de arducam : prends de la place (jsp combien) et rend la chose un chouilla plus complicado) 
