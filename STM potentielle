@@ -1,0 +1,41 @@
+1. STM32F407VET6 "Black Board" (La plus complète)
+
+C'est celle dont nous avons parlé. Elle est imbattable car elle intègre tout sur une seule plaque.
+
+    Prix : ~13 € à 15 € (sur AliExpress/Banggood).
+
+    Taille : 72 mm x 53 mm.
+
+    Atouts : * Port MicroSD intégré (tu gagnes 3 € et des câbles en moins).
+
+        Pins DCMI bien exposés.
+
+        Batterie RTC pour l'horodatage des photos.
+
+    Contrainte CanSat : Ses 72 mm de long t'obligent à la monter verticalement.
+
+2. STM32F407VET6 "Mini" (La plus compacte)
+
+Il existe des versions encore plus dépouillées de la Black Board, souvent appelées "Smallest System Board".
+
+    Prix : ~10 € à 12 €.
+
+    Taille : Environ 50 mm x 40 mm.
+
+    Atouts : * Elle est carrée et minuscule, elle rentre à plat dans un CanSat de 66 mm !
+
+        Possède tous les pins DCMI.
+
+    Inconvénient : Elle n'a souvent pas de lecteur de carte SD intégré. Tu devras acheter un petit module SD externe (1-2 €) et le câbler.
+
+3. DIY : Le module STM32F405RGT6 (Type "Feather")
+
+Si tu cherches la compacité absolue, regarde du côté des cartes basées sur le F405. C'est le processeur utilisé dans les contrôleurs de vol de drones (Betaflight).
+
+    Prix : ~12 € à 14 €.
+
+    Taille : Environ 51 mm x 23 mm (Format "Black Pill").
+
+    Atouts : Très étroit, très léger.
+
+    Attention : Le port DCMI est présent sur la puce, mais vérifie bien sur le schéma de la carte que tous les pins (D0-D7, HSYNC, VSYNC, PIXCLK) sont sortis sur les connecteurs latéraux.
