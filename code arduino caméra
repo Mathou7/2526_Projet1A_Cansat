@@ -1,0 +1,103 @@
+void SendResetCmd(); void SendTakePhotoCmd(); void SendReadDataCmd(); void StopTakePhotoCmd();
+
+void setup() {
+
+ Serial.begin(19200);
+ mySerial.begin(38400);
+}
+
+void loop() {
+
+    SendResetCmd();
+    delay(4000);                               //After reset, wait 2-3 second to send take picture command
+     
+     SendTakePhotoCmd();
+    while(mySerial.available()>0)
+     {
+       incomingbyte=mySerial.read();
+     }   
+     byte a[32];
+     
+     while(!EndFlag)
+     {  
+        j=0;
+        k=0;
+        count=0;
+        SendReadDataCmd();
+        delay(25);
+         while(mySerial.available()>0)
+         {
+              incomingbyte=mySerial.read();
+              k++;
+              if((k>5)&&(j<32)&&(!EndFlag))
+              {
+              a[j]=incomingbyte;
+              if((a[j-1]==0xFF)&&(a[j]==0xD9))      //Check if the picture is over
+              EndFlag=1;                           
+              j++;
+count++;
+
+              }
+         }
+        
+         for(j=0;j<count;j++)
+         {   if(a[j]<0x10)
+             Serial.print("0");
+             Serial.print(a[j],HEX);
+             Serial.print(" ");
+         }                                       //Send jpeg picture over the serial port
+         Serial.println();
+     }      
+    while(1);
+}
+
+//Send Reset command void SendResetCmd() {
+
+     mySerial.print(0x56, BYTE);
+     mySerial.print(0x00, BYTE);
+     mySerial.print(0x26, BYTE);
+     mySerial.print(0x00, BYTE);
+}
+
+//Send take picture command void SendTakePhotoCmd() {
+
+     mySerial.print(0x56, BYTE);
+     mySerial.print(0x00, BYTE);
+     mySerial.print(0x36, BYTE);
+     mySerial.print(0x01, BYTE);
+     mySerial.print(0x00, BYTE);  
+}
+
+//Read data void SendReadDataCmd() {
+
+     MH=a/0x100;
+     ML=a%0x100;
+     mySerial.print(0x56, BYTE);
+     mySerial.print(0x00, BYTE);
+     mySerial.print(0x32, BYTE);
+     mySerial.print(0x0c, BYTE);
+     mySerial.print(0x00, BYTE); 
+     mySerial.print(0x0a, BYTE);
+     mySerial.print(0x00, BYTE);
+     mySerial.print(0x00, BYTE);
+     mySerial.print(MH, BYTE);
+     mySerial.print(ML, BYTE);   
+     mySerial.print(0x00, BYTE);
+     mySerial.print(0x00, BYTE);
+     mySerial.print(0x00, BYTE);
+     mySerial.print(0x20, BYTE);
+     mySerial.print(0x00, BYTE);  
+     mySerial.print(0x0a, BYTE);
+     a+=0x20;                            //address increases 32，set according to buffer size
+}
+
+void StopTakePhotoCmd() {
+
+     mySerial.print(0x56, BYTE);
+     mySerial.print(0x00, BYTE);
+     mySerial.print(0x36, BYTE);
+     mySerial.print(0x01, BYTE);
+     mySerial.print(0x03, BYTE);        
+}
+
+</syntaxhighlight>
