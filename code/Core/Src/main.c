@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "baro.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -64,7 +65,13 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
+	{
+	    camera_init();
 
+	    camera_process(); // lance le programme de la caméra
+
+	    return 0;
+	}
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
