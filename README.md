@@ -17,5 +17,5 @@ Le groupe est composé de Marin.P, Pierre-Antoine.R, Lucas.G, Arnaud.M et Mathis
 - Moteur brushless (GA12-N20)
 - Centrale inertielle
 - Time of Lights
-- Caméra
+- Caméra (JPEG Color Camera 2M Pixel Serial UART Interface (TTL level))
 - Interrupteur
