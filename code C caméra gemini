@@ -1,129 +1,103 @@
-C'est un excellent point de départ. Passer d'Arduino à du "vrai C" pour STM32 (généralement via l'IDE STM32CubeIDE avec la bibliothèque **HAL**) demande de changer la façon dont on gère le port série (UART).
-
-Voici la conversion de ton code. J'ai structuré cela pour que ce soit compatible avec un **STM32L476**.
-
-### 1. Configuration préalable (STM32CubeMX)
-Dans ton fichier `.ioc`, assure-toi d'avoir :
-* **UART1** (par exemple) configuré pour la Caméra : `38400 Baud`, `8 Bits`, `None Parity`.
-* **UART2** (par exemple) configuré pour le PC (Debug) : `19200 Baud`.
-
----
-
-### 2. Le code en C (HAL)
-
-Voici le fichier `main.c` adapté. J'ai remplacé les `Serial.print` par des fonctions `HAL_UART_Transmit` et `Receive`.
-
-```c
 #include "main.h"
-#include <string.h>
 #include <stdio.h>
+#include <string.h>
 
-// On définit nos handles UART (à vérifier selon ta config CubeMX)
-extern UART_HandleTypeDef huart1; // Caméra
-extern UART_HandleTypeDef huart2; // PC / Debug
+// Déclaration des handles UART (à configurer dans l'IOC de STM32CubeIDE)
+extern UART_HandleTypeDef huart1; // Vers PC (19200)
+extern UART_HandleTypeDef huart2; // Vers Caméra (38400)
 
 // Variables globales
-uint16_t address = 0x0000;
+uint8_t incomingbyte;
 uint8_t EndFlag = 0;
+uint32_t address = 0; // Remplace 'a' dans votre code Arduino
 
 // Prototypes
 void SendResetCmd(void);
 void SendTakePhotoCmd(void);
-void SendReadDataCmd(uint16_t addr);
+void SendReadDataCmd(void);
 void StopTakePhotoCmd(void);
+void SerialPrintHex(uint8_t val);
 
-// Fonction utilitaire pour envoyer un octet seul (remplace mySerial.print(x, BYTE))
-void UART_SendByte(uint8_t byte) {
-    HAL_UART_Transmit(&huart1, &byte, 1, 100);
-}
-
-void loop() {
-    uint8_t incomingbyte;
+void Camera_Process(void) {
     uint8_t buffer[32];
-    uint8_t header[5];
+    uint8_t j, k, count;
 
-    // 1. Reset
     SendResetCmd();
     HAL_Delay(4000);
 
-    // 2. Take Photo
     SendTakePhotoCmd();
-    
-    // Vider le buffer de réception (équivalent de while(available > 0))
-    while(HAL_UART_Receive(&huart1, &incomingbyte, 1, 10) == HAL_OK);
 
-    // 3. Lecture des données par blocs de 32 octets
+    // Vider le buffer de réception (équivalent de while(available > 0))
+    while (HAL_UART_Receive(&huart2, &incomingbyte, 1, 10) == HAL_OK);
+
     while (!EndFlag) {
-        SendReadDataCmd(address);
-        
-        // La caméra répond : 5 octets d'en-tête + 32 octets de data + 2 octets de fin
-        // On attend l'en-tête d'abord
-        if (HAL_UART_Receive(&huart1, header, 5, 100) == HAL_OK) {
-            // On lit les 32 octets de données
-            if (HAL_UART_Receive(&huart1, buffer, 32, 100) == HAL_OK) {
-                
-                for (int j = 0; j < 32; j++) {
-                    // Vérification du marqueur de fin JPEG (FF D9)
-                    if (j > 0 && buffer[j-1] == 0xFF && buffer[j] == 0xD9) {
-                        EndFlag = 1;
-                    }
-                    
-                    // Envoi vers le PC en format Hexa pour le debug
-                    char msg[4];
-                    sprintf(msg, "%02X ", buffer[j]);
-                    HAL_UART_Transmit(&huart2, (uint8_t*)msg, 3, 10);
+        j = 0;
+        k = 0;
+        count = 0;
+
+        SendReadDataCmd();
+        HAL_Delay(25);
+
+        // Lecture des données
+        while (HAL_UART_Receive(&huart2, &incomingbyte, 1, 50) == HAL_OK) {
+            k++;
+            // Logique de filtrage des headers de réponse de la caméra
+            if ((k > 5) && (j < 32) && (!EndFlag)) {
+                buffer[j] = incomingbyte;
+                if (j > 0 && buffer[j - 1] == 0xFF && buffer[j] == 0xD9) {
+                    EndFlag = 1;
                 }
-                
-                // On lit les 2 octets de fin de protocole restants
-                uint8_t footer[2];
-                HAL_UART_Receive(&huart1, footer, 2, 10);
+                j++;
+                count++;
             }
         }
-        address += 0x20; // Incrément de 32
-        HAL_Delay(25);
+
+        // Envoi vers le PC en format HEX
+        for (uint8_t i = 0; i < count; i++) {
+            SerialPrintHex(buffer[i]);
+        }
+        HAL_UART_Transmit(&huart1, (uint8_t*)"\r\n", 2, 10);
     }
 
-    StopTakePhotoCmd();
-    while (1); // Fin de mission
+    while (1); // Fin du processus
 }
 
-// --- Implémentation des commandes ---
+// --- Fonctions de commandes ---
 
-void SendResetCmd() {
+void SendResetCmd(void) {
     uint8_t cmd[] = {0x56, 0x00, 0x26, 0x00};
-    HAL_UART_Transmit(&huart1, cmd, 4, 100);
+    HAL_UART_Transmit(&huart2, cmd, sizeof(cmd), 100);
 }
 
-void SendTakePhotoCmd() {
+void SendTakePhotoCmd(void) {
     uint8_t cmd[] = {0x56, 0x00, 0x36, 0x01, 0x00};
-    HAL_UART_Transmit(&huart1, cmd, 5, 100);
+    HAL_UART_Transmit(&huart2, cmd, sizeof(cmd), 100);
 }
 
-void SendReadDataCmd(uint16_t addr) {
-    uint8_t MH = (addr >> 8) & 0xFF;
-    uint8_t ML = addr & 0xFF;
+void SendReadDataCmd(void) {
+    uint8_t MH = address / 0x100;
+    uint8_t ML = address % 0x100;
     
     uint8_t cmd[] = {
         0x56, 0x00, 0x32, 0x0c, 0x00, 0x0a, 0x00, 0x00,
         MH, ML, 0x00, 0x00, 0x00, 0x20, 0x00, 0x0a
     };
-    HAL_UART_Transmit(&huart1, cmd, 16, 100);
+    
+    HAL_UART_Transmit(&huart2, cmd, sizeof(cmd), 100);
+    address += 0x20;
 }
 
-void StopTakePhotoCmd() {
+void StopTakePhotoCmd(void) {
     uint8_t cmd[] = {0x56, 0x00, 0x36, 0x01, 0x03};
-    HAL_UART_Transmit(&huart1, cmd, 5, 100);
+    HAL_UART_Transmit(&huart2, cmd, sizeof(cmd), 100);
 }
-```
 
----
-
-### Ce qui change par rapport à Arduino :
-
-1.  **Gestion des Tableaux :** Au lieu de faire `mySerial.print` octet par octet, on crée un tableau `uint8_t cmd[]` et on l'envoie d'un coup avec `HAL_UART_Transmit`. C'est beaucoup plus efficace.
-2.  **Timeouts :** Les fonctions `HAL_UART_Receive` attendent un certain temps (en ms). Si la caméra ne répond pas, le code ne reste pas bloqué indéfiniment.
-3.  **Calcul d'adresse :** J'ai simplifié ton calcul `MH/ML` en utilisant des décalages de bits (`>> 8`), ce qui est la norme en C embarqué.
-4.  **Affichage Debug :** J'utilise `sprintf` pour formater l'hexa avant de l'envoyer au PC via `huart2`.
+// Utilitaire pour simuler Serial.print(val, HEX)
+void SerialPrintHex(uint8_t val) {
+    char hexStr[4];
+    sprintf(hexStr, "%02X ", val);
+    HAL_UART_Transmit(&huart1, (uint8_t*)hexStr, strlen(hexStr), 10);
+}
 
 ### Conseil pour ton CanSat :
 La lecture de la caméra est **synchrone** ici (le code attend que la caméra réponde). Dans un vrai vol, si la caméra met trop de temps, tu risques de rater des mesures du baromètre. 
