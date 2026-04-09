@@ -1,0 +1,22 @@
+Reference,Qty,Value,DNP,Exclude from BOM,Exclude from Board,Footprint,Datasheet
+"C1,C2,C4,C10,C11",5,100nF,,,,Capacitor_SMD:C_0603_1608Metric,~
+C5,1,2.2uF,,,,Capacitor_SMD:C_0603_1608Metric,~
+"C6,C12",2,10nF,,,,Capacitor_SMD:C_0603_1608Metric,~
+C7,1,10uF,,,,Capacitor_SMD:C_0603_1608Metric,~
+"C8,C13,C14",3,1uF,,,,Capacitor_SMD:C_0603_1608Metric,~
+C9,1,4.7uF,,,,Capacitor_SMD:C_0603_1608Metric,~
+"D1,D2,D3",3,LED_Small,,,,LED_SMD:LED_0603_1608Metric,~
+J1,1,Conn_01x04,,,,Connector_JST:JST_XH_B4B-XH-A_1x04_P2.50mm_Vertical,~
+J2,1,Conn_01x03,,,,Connector_JST:JST_SH_BM03B-SRSS-TB_1x03-1MP_P1.00mm_Vertical,~
+J4,1,Conn_01x02,,,,Connector_JST:JST_XH_B2B-XH-A_1x02_P2.50mm_Vertical,~
+J5,1,Conn_ST_STDC14,,,,Connector_PinHeader_1.27mm:PinHeader_2x07_P1.27mm_Vertical_SMD,https://www.st.com/content/ccc/resource/technical/document/user_manual/group1/99/49/91/b6/b2/3a/46/e5/DM00526767/files/DM00526767.pdf/jcr:content/translations/en.DM00526767.pdf
+J6,1,Barrel_Jack_Switch,,,,Connector_BarrelJack:BarrelJack_Wuerth_6941xx301002,~
+"R1,R5,R6",3,1k,,,,Resistor_SMD:R_0603_1608Metric,~
+"R2,R4",2,10k,,,,Resistor_SMD:R_0603_1608Metric,~
+R3,1,200m,,,,Resistor_SMD:R_0603_1608Metric,~
+SW3,1,SW_Push,,,,Button_Switch_THT:SW_PUSH_6mm_H5mm,~
+U1,1,BMP581,,,,BMP581:BMP581,
+U2,1,DRV8833PWP,,,,Package_SO:HTSSOP-16-1EP_4.4x5mm_P0.65mm_EP3.4x5mm_Mask2.46x2.31mm_ThermalVias,http://www.ti.com/lit/ds/symlink/drv8833.pdf
+U3,1,STM32G431KBTx,,,,Package_QFP:LQFP-32_7x7mm_P0.8mm,https://www.st.com/resource/en/datasheet/stm32g431kb.pdf
+U4,1,MIC5219-3.3YMM,,,,Package_SO:MSOP-8_3x3mm_P0.65mm,http://ww1.microchip.com/downloads/en/DeviceDoc/MIC5219-500mA-Peak-Output-LDO-Regulator-DS20006021A.pdf
+U5,1,WPME-FDSM_SIP-3,,,,WPME-FDSM_SIP-3:WPME-FDSM_173010X78,
