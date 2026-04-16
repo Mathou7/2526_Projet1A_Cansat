@@ -12,10 +12,10 @@ Le groupe est composé de Marin.P, Pierre-Antoine.R, Lucas.G, Arnaud.M et Mathis
 - Interrupteur général permettant d'allumer et éteindre la canette
 
 ## Choix des composants
-- Microcontroleur (STM32F303K8)
+- Microcontroleur (stm32g431kbt)
 - Baromètre (bnp581)
 - Moteur brushless (GA12-N20)
-- Centrale inertielle
-- Time of Lights
-- Caméra (JPEG Color Camera 2M Pixel Serial UART Interface (TTL level))
+- Centrale inertielle (abandonné) 
+- Time of Lights 
+- Caméra (VC0706)
 - Interrupteur
