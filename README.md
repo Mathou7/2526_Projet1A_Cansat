@@ -19,3 +19,9 @@ Le groupe est composé de Marin.P, Pierre-Antoine.R, Lucas.G, Arnaud.M et Mathis
 - Time of Lights 
 - Caméra (VC0706)
 - Interrupteur
+
+## Reflexion responsable 
+Dans quelle mesure votre projet peut-il être intégré à des mesures d’adaptaton ou d’aténuaton du changement
+climatque ?
+
+Notre Cansat pourrait filmer un territoire pendant le largage et nous y montrer une évolution. Par exemple, face à une forêt, voir l'effet d'une déforestation ou d'une dégradation du territoire. 
