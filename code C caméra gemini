@@ -1,0 +1,105 @@
+#include "main.h"
+#include <stdio.h>
+#include <string.h>
+
+// Déclaration des handles UART (à configurer dans l'IOC de STM32CubeIDE)
+extern UART_HandleTypeDef huart1; // Vers PC (19200)
+extern UART_HandleTypeDef huart2; // Vers Caméra (38400)
+
+// Variables globales
+uint8_t incomingbyte;
+uint8_t EndFlag = 0;
+uint32_t address = 0; // Remplace 'a' dans votre code Arduino
+
+// Prototypes
+void SendResetCmd(void);
+void SendTakePhotoCmd(void);
+void SendReadDataCmd(void);
+void StopTakePhotoCmd(void);
+void SerialPrintHex(uint8_t val);
+
+void Camera_Process(void) {
+    uint8_t buffer[32];
+    uint8_t j, k, count;
+
+    SendResetCmd();
+    HAL_Delay(4000);
+
+    SendTakePhotoCmd();
+
+    // Vider le buffer de réception (équivalent de while(available > 0))
+    while (HAL_UART_Receive(&huart2, &incomingbyte, 1, 10) == HAL_OK);
+
+    while (!EndFlag) {
+        j = 0;
+        k = 0;
+        count = 0;
+
+        SendReadDataCmd();
+        HAL_Delay(25);
+
+        // Lecture des données
+        while (HAL_UART_Receive(&huart2, &incomingbyte, 1, 50) == HAL_OK) {
+            k++;
+            // Logique de filtrage des headers de réponse de la caméra
+            if ((k > 5) && (j < 32) && (!EndFlag)) {
+                buffer[j] = incomingbyte;
+                if (j > 0 && buffer[j - 1] == 0xFF && buffer[j] == 0xD9) {
+                    EndFlag = 1;
+                }
+                j++;
+                count++;
+            }
+        }
+
+        // Envoi vers le PC en format HEX
+        for (uint8_t i = 0; i < count; i++) {
+            SerialPrintHex(buffer[i]);
+        }
+        HAL_UART_Transmit(&huart1, (uint8_t*)"\r\n", 2, 10);
+    }
+
+    while (1); // Fin du processus
+}
+
+// --- Fonctions de commandes ---
+
+void SendResetCmd(void) {
+    uint8_t cmd[] = {0x56, 0x00, 0x26, 0x00};
+    HAL_UART_Transmit(&huart2, cmd, sizeof(cmd), 100);
+}
+
+void SendTakePhotoCmd(void) {
+    uint8_t cmd[] = {0x56, 0x00, 0x36, 0x01, 0x00};
+    HAL_UART_Transmit(&huart2, cmd, sizeof(cmd), 100);
+}
+
+void SendReadDataCmd(void) {
+    uint8_t MH = address / 0x100;
+    uint8_t ML = address % 0x100;
+    
+    uint8_t cmd[] = {
+        0x56, 0x00, 0x32, 0x0c, 0x00, 0x0a, 0x00, 0x00,
+        MH, ML, 0x00, 0x00, 0x00, 0x20, 0x00, 0x0a
+    };
+    
+    HAL_UART_Transmit(&huart2, cmd, sizeof(cmd), 100);
+    address += 0x20;
+}
+
+void StopTakePhotoCmd(void) {
+    uint8_t cmd[] = {0x56, 0x00, 0x36, 0x01, 0x03};
+    HAL_UART_Transmit(&huart2, cmd, sizeof(cmd), 100);
+}
+
+// Utilitaire pour simuler Serial.print(val, HEX)
+void SerialPrintHex(uint8_t val) {
+    char hexStr[4];
+    sprintf(hexStr, "%02X ", val);
+    HAL_UART_Transmit(&huart1, (uint8_t*)hexStr, strlen(hexStr), 10);
+}
+
+### Conseil pour ton CanSat :
+La lecture de la caméra est **synchrone** ici (le code attend que la caméra réponde). Dans un vrai vol, si la caméra met trop de temps, tu risques de rater des mesures du baromètre. 
+
+**Souhaites-tu que je t'explique comment mettre ce code dans une fonction séparée pour ne pas bloquer le reste de ton programme STM32 ?**

@@ -1,0 +1,6 @@
+../Core/Src/camera.c:31:6:camera_init	4	static
+../Core/Src/camera.c:37:6:camera_process	48	static
+../Core/Src/camera.c:98:13:send_reset_cmd	8	static
+../Core/Src/camera.c:106:13:send_take_photo_cmd	8	static
+../Core/Src/camera.c:115:13:send_read_data_cmd	16	static
+../Core/Src/camera.c:140:13:stop_take_photo_cmd	8	static

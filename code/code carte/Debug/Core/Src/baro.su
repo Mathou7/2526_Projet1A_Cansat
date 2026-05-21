@@ -1,0 +1,8 @@
+../Core/Src/baro.c:24:12:read_byte	24	static
+../Core/Src/baro.c:39:12:write_byte	32	static
+../Core/Src/baro.c:49:5:BARO_Communication	16	static
+../Core/Src/baro.c:58:15:BARO_Init	16	static
+../Core/Src/baro.c:97:6:IsDataReady	16	static
+../Core/Src/baro.c:106:9:ReadPressureTemp	72	static
+../Core/Src/baro.c:119:6:calibrage	24	static
+../Core/Src/baro.c:129:7:altitute	32	static
