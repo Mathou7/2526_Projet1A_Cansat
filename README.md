@@ -45,29 +45,35 @@ PCB à quatre couches constitué de
 - Connecteur ST
 
 
-Difficultés :
+## Difficultés
 
-approvisionnement en composants: nous n'avons pas reçu exactement les composants que l'on souhaitait au départ notamment la caméra qui devait enregistrer les images pendant la chute. Celle à laquelle nous avons eu accès transmet les images par onde radio, permettant de voir directement les images sur un écran extérieur à la canette.
+Approvisionnement en composants
+Nous n'avons pas reçu exactement les composants que l'on souhaitait au départ notamment la caméra qui devait enregistrer les images pendant la chute. Celle à laquelle nous avons eu accès transmet les images par onde radio, permettant de voir directement les images sur un écran extérieur à la canette.
 
-La forme particulière du PCB imposée par le volume restreint de la canette et le système d'ouverture du parachute a constitué un frein considérable à la conception du PCB
+Forme restrictive
+La forme particulière du PCB imposée par le volume restreint de la canette et le système d'ouverture du parachute a constitué un frein considérable à la conception du PCB.
 
-Au niveau du code: une étude détaillée du fonctionnement du baromètre a été nécessaire afin de coder les différentes fonctions permettant d'aboutir au calucl de l'altitude ce qui a été très chronophage 
+Code
+Une étude détaillée du fonctionnement du baromètre a été nécessaire afin de coder les différentes fonctions permettant d'aboutir au calcul de l'altitude, ce qui a été très chronophage 
 
-Conception de la canette: le système d'ouverture du parachute a été le principal défis de conception nous forçant à modifier l'architecture de notre canette.
+Conception de la canette
+Le système d'ouverture du parachute a été le principal défi de conception nous forçant à modifier l'architecture de notre canette.
 
 
+## Solutions trouvées
 
-
-Solutions trouvés :
-
-Les composants: Pour la caméra nous avons trouvé une caméra avec un fonctionnement différent de celle initialement prévue.
+Les composants 
+Pour la caméra nous avons trouvé une caméra avec un fonctionnement différent de celle initialement prévue.
 Nous avons reçu le baromètre déjà soudé sur un PCB alors que nous avions demandé le baromètre seul, nous l'avons donc désoudé pour le resouder sur notre PCB.
-Le connecteur pour la batterie était manquant (JST-SH) nous avons donc dut souder directement la batterie à l'interface prévue initialement pour le connecteur.
+En attendant la livraison du connecteur pour la batterie (JST-SH) nous avons soudé directement la batterie à l'interface prévue initialement pour le connecteur.
 
-conception de la canette : Nous avons séparé notre canette en 2 espaces : une partie acceuillant le PCB et ses différents composants dont le moteur et une partie dans laquelle se trouve le parachute.
-Le système d'ouverture fonctionne gràce à 2 goupilles qui maintiennent la partie contenant le parachute et la patie contenant le PCB ensemble. Ces 2 goupilles sont reliés par des fils au moteur qui en tournant va enrouler ces fils autour de son axe et les libérer. Le capuchon dans lequel se trouve le parachute va donc se détacher pour laisser le parachute sortir et se déployer. Le capuchon une fois détaché du reste de la canette reste relié à celle-ci via un autre fil nous permettant de respecté une exigeance imposée par le concours: aucune partie de la canette ne doit tomber au sol sans être ralentie.
+Conception de la canette 
+Nous avons séparé notre canette en 2 espaces : une partie acceuillant le PCB et ses différents composants dont le moteur et une partie dans laquelle se trouve le parachute.
+Le système d'ouverture fonctionne gràce à 2 goupilles qui maintiennent la partie contenant le parachute et la patie contenant le PCB ensemble. Ces 2 goupilles sont reliées par des fils au moteur qui en tournant va enrouler ces fils autour de son axe et les libérer. Le capuchon dans lequel se trouve le parachute va donc se détacher pour laisser le parachute sortir et se déployer. Le capuchon une fois détaché du reste de la canette reste relié à celle-ci via un autre fil nous permettant de respecter une exigeance imposée par le concours: aucune partie de la canette ne doit tomber au sol sans être ralentie.
 
-Partie contenant le PCB et tout les éléments qui y sont relié:
+## Partie Méca
+
+Partie contenant le PCB et tout les éléments qui y sont reliés :
 <img width="902" height="511" alt="image" src="https://github.com/user-attachments/assets/38d895d1-ad01-4584-8a0e-90aecc5c6918" />
 
 Opercule fermant la partie PCB qui maintient la partie parachute :
@@ -78,6 +84,22 @@ Corps du capuchon contenant le parachute :
 
 Opercule fermant le capuchon du parachute :
 <img width="900" height="509" alt="image" src="https://github.com/user-attachments/assets/e0bd637e-639f-47a3-a1f0-ecc056483ceb" />
+
+## Bilan des fonctionnalités
+
+
+Test du bouton permettant d'allumer la LED
+
+https://github.com/user-attachments/assets/89bd5818-fe06-4b41-a8be-61a60c13a220
+
+
+
+Test du moteur
+
+https://github.com/user-attachments/assets/85a999e9-10d9-4074-9609-f378fe4b467d
+
+
+
 
 
 
